@@ -17,9 +17,9 @@ class Board
     valid_moves
   end
 
-  def update_board(spot)
+  def update_board(spot, player)
     @board = @board.map do |row|
-      row.map {|num| num == spot ? "x" : num}
+      row.map {|num| num == spot ? player.symbol : num}
     end
   end
 
@@ -53,9 +53,10 @@ class Board
   end
 
   def game_over?
-    if horizontal_game_over? || vertical_game_over? || diagonol_game_over?
-      true
-    else
-    end
+    horizontal_game_over? || vertical_game_over? || diagonol_game_over?
+  end
+
+  def tie_game?
+    !game_over? && valid_moves.empty?
   end
 end
