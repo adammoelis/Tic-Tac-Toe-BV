@@ -8,11 +8,8 @@ class Game
   def run
     @player = Player.new("x", "Adam")
     @computerplayer = Player.new("o", "Computer")
-
-
-
     initial_message
-    answer = first_or_second?
+    first_or_second?
     instructions
     until game_over? || tie_game?
       @board.display_board
