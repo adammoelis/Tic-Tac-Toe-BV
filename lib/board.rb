@@ -2,17 +2,43 @@ require_relative '../config/environment'
 class Board
   attr_reader :board
 
-  def initialize
-    @board = [
-      ['1', '2', '3'],
-      ['4', '5', '6'],
-      ['7', '8', '9']
-    ]
+  def initialize(size)
+    @size = size
+    @numbers = size ** 2
+    @board = create_board
+  end
+
+  def populate_empty_board_with_arrays
+    board = []
+    @size.times do |i|
+      board << []
+    end
+    board
+  end
+
+  def create_board
+    board = populate_empty_board_with_arrays
+    i = 0
+    (1..@numbers).each do |num|
+      if num.to_i % @size == 1 && num >= @size
+        i += 1
+        board[i] << num
+      else
+        board[i] << num
+      end
+    end
+    board
   end
 
   def display_board
     @board.each do |row|
-      puts "#{row[0]}|#{row[1]}|#{row[2]}"
+      row.each do |num|
+        if num.to_i % @size == 0
+          puts "#{sprintf('%02d',num)}|"
+        else
+          print "#{sprintf('%02d', num)}|"
+        end
+      end
     end
     valid_moves
   end
@@ -60,3 +86,5 @@ class Board
     !game_over? && valid_moves.empty?
   end
 end
+
+binding.pry
