@@ -8,8 +8,11 @@ class Game
   def run
     @player = Player.new("x", "Adam")
     @computerplayer = Player.new("o", "Computer")
-    @turn = 0
+
+
+
     initial_message
+    answer = first_or_second?
     instructions
     until game_over? || tie_game?
       @board.display_board
@@ -21,6 +24,16 @@ class Game
 
   def initial_message
     puts "Welcome to Tic-Tac-Toe!"
+  end
+
+  def first_or_second?
+    puts "Would you like to move first (F) or second (S)?"
+    answer = gets.chomp.downcase
+    while answer != "f" && answer != "s"
+      puts "Invalid. Try again"
+      answer = gets.chomp.downcase
+    end
+    answer == "f" ? @turn = 0 : @turn = 1
   end
 
   def instructions
