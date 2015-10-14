@@ -1,14 +1,11 @@
 require_relative '../config/environment'
 class Game
 
-  def initialize
-    @board = Board.new
-  end
-
   def run
     @player = Player.new("x", "Adam")
     @computerplayer = Player.new("o", "Computer")
     initial_message
+    @board = Board.new(choose_board)
     first_or_second?
     instructions
     until game_over? || tie_game?
@@ -17,6 +14,11 @@ class Game
     end
     game_over_message
     play_again?
+  end
+
+  def choose_board
+    puts "What size board?"
+    gets.chomp
   end
 
   def initial_message

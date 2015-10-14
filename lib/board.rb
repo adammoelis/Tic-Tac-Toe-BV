@@ -3,8 +3,8 @@ class Board
   attr_reader :board
 
   def initialize(size)
-    @size = size
-    @numbers = size ** 2
+    @size = size.to_i
+    @numbers = @size ** 2
     @board = create_board
   end
 
@@ -22,9 +22,9 @@ class Board
     (1..@numbers).each do |num|
       if num.to_i % @size == 1 && num >= @size
         i += 1
-        board[i] << num
+        board[i] << num.to_s
       else
-        board[i] << num
+        board[i] << num.to_s
       end
     end
     board
@@ -32,11 +32,11 @@ class Board
 
   def display_board
     @board.each do |row|
-      row.each do |num|
-        if num.to_i % @size == 0
-          puts "#{sprintf('%02d',num)}|"
+      row.each.with_index(1) do |num, index|
+        if index == @size
+          puts num.to_i != 0 ? "#{sprintf('%02d',num)}|" : "#{num}|"
         else
-          print "#{sprintf('%02d', num)}|"
+          print num.to_i != 0 ? "#{sprintf('%02d', num)}|" : "#{num}|"
         end
       end
     end
@@ -58,24 +58,44 @@ class Board
   end
 
   def horizontal_game_over?
-    @board[0].uniq.size == 1 || @board[1].uniq.size == 1 || @board[2].uniq.size == 1
+    array = (0...@board.size).map do |num|
+      @board[num].uniq.size == 1
+    end
+    array.include?(true)
+  end
+
+  def get_vertical_array
+    array = (0...@board.size).map do |num|
+        @board.map do |row|
+          row[num]
+      end
+    end
+  end
+
+  def get_diagonol_array
+    array1 = (0...@board.size).map do |num|
+      @board[num][num]
+    end
+    i = @board.size
+    array2 = (0...@board.size).map do |num|
+      i -= 1
+      @board[i][num]
+    end
+    [array1, array2]
   end
 
   def vertical_game_over?
-    i = 0
-    result = false
-    while i <= 2
-      if @board[0][i] == @board[1][i] && @board[1][i] == @board[2][i]
-        result = true
-        break
-      end
-      i += 1
+    array = (0...@board.size).map do |num|
+      get_vertical_array[num].uniq.size == 1
     end
-    result
+    array.include?(true)
   end
 
   def diagonol_game_over?
-    (@board[0][0] == @board[1][1] && @board[1][1] == @board[2][2]) || (@board[0][2] == @board[1][1] && @board[1][1] == @board[2][0])
+    array = (0..1).map do |num|
+      get_diagonol_array[num].uniq.size == 1
+    end
+    array.include?(true)
   end
 
   def game_over?
@@ -86,5 +106,3 @@ class Board
     !game_over? && valid_moves.empty?
   end
 end
-
-binding.pry
