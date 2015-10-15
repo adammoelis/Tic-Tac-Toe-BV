@@ -41,29 +41,24 @@ describe "Board testing" do
   it "Knows game is over with a horizontal win" do
     board = Board.new(3)
     adam = Player.new("x", "Adam")
-    board.update_board("1", adam)
-    board.update_board("2", adam)
-    board.update_board("3", adam)
+    moves = ["1", "2", "3"]
+    moves.each {|move| board.update_board(move, adam)}
     expect(board.horizontal_game_over?).to eq(true)
   end
 
   it "Knows game is over with a vertical win" do
     board = Board.new(4)
     adam = Player.new("x", "Adam")
-    board.update_board("1", adam)
-    board.update_board("5", adam)
-    board.update_board("9", adam)
-    board.update_board("13", adam)
+    moves = ["1", "5", "9", "13"]
+    moves.each {|move| board.update_board(move, adam)}
     expect(board.vertical_game_over?).to eq(true)
   end
 
   it "Knows game is over with a diagonol win" do
     board = Board.new(4)
     adam = Player.new("x", "Adam")
-    board.update_board("1", adam)
-    board.update_board("6", adam)
-    board.update_board("11", adam)
-    board.update_board("16", adam)
+    moves = ["1", "6", "11", "16"]
+    moves.each {|move| board.update_board(move, adam)}
     expect(board.diagonol_game_over?).to eq(true)
   end
 end
