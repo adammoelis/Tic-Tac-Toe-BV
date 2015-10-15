@@ -91,10 +91,4 @@ class Game
   def last_mover
     @turn == 1 ? @player : @computerplayer
   end
-
-
-
 end
-
-game = Game.new
-game.run
