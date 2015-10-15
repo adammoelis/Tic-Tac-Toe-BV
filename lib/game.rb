@@ -18,7 +18,12 @@ class Game
 
   def choose_board
     puts "What size board?"
-    gets.chomp
+    answer = gets.chomp
+    while answer.to_i == 0
+      puts "Invalid. Try again"
+      answer = gets.chomp.downcase
+    end
+    answer
   end
 
   def initial_message
